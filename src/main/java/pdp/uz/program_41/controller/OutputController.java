@@ -18,8 +18,8 @@ public class OutputController {
     return outputService.add(outputDto);
 }
 @GetMapping
-    public Result get(){
-    return outputService.get();
+    public Result get(@RequestParam int page){
+    return outputService.get(page);
 }
 @GetMapping("/{id}")
 public Result getById(@PathVariable Integer id){

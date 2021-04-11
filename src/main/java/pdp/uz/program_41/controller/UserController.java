@@ -21,8 +21,8 @@ public class UserController {
     }
 
     @GetMapping
-    public Result get() {
-        return userService.get();
+    public Result get(@RequestParam int page) {
+        return userService.get(page);
     }
 
     @GetMapping("/{id}")

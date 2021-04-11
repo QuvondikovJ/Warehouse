@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Client;
 import pdp.uz.program_41.payload.Result;
@@ -26,10 +29,12 @@ public class ClientService {
         return new Result("New Client successfully saved.",true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsClientByActive = clientRepository.existsClientByActive(true);
         if(existsClientByActive){
-            return new Result(clientRepository.getClientByActive(true));
+            Pageable pageable = PageRequest.of(page, 10);
+            Page<Client> page1 = clientRepository.getClientByActive(true, pageable);
+            return new Result(page1);
         }
         return new Result("Clients not exists yet!",false);
     }

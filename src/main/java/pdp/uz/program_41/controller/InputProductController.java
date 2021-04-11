@@ -19,8 +19,8 @@ public class InputProductController {
     }
 
     @GetMapping
-    public Result get() {
-        return inputProductService.get();
+    public Result get(@RequestParam int page) {
+        return inputProductService.get(page);
     }
 
     @GetMapping("/{id}")
@@ -29,8 +29,8 @@ public class InputProductController {
     }
 
     @GetMapping("/{inputId}")
-    public Result getByInputId(@PathVariable Integer inputId) {
-        return inputProductService.getByInputId(inputId);
+    public Result getByInputId(@PathVariable Integer inputId, @RequestParam int page) {
+        return inputProductService.getByInputId(inputId, page);
     }
 
     @PutMapping("/{id")

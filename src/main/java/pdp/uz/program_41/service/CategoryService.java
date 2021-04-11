@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Category;
 import pdp.uz.program_41.payload.CategoryDto;
@@ -40,12 +43,14 @@ categoryRepository.save(category);
 return new Result("New category successfully saved.", true);
 }
 
-public Result get(){
+public Result get(int page){
     boolean existsCategoryByActive = categoryRepository.existsCategoryByActive(true);
     if(!existsCategoryByActive){
         return new Result("Categories not exist yet!", false);
     }
-    return new Result(categoryRepository.getCategoryByActive(true));
+    Pageable pageable = PageRequest.of(page, 10);
+    Page<Category> page1 = categoryRepository.getCategoryByActive(true,pageable);
+    return new Result(page1);
 }
 
 public Result getById(Integer id){

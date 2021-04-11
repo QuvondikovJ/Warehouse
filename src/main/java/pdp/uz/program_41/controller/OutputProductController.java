@@ -19,8 +19,8 @@ public class OutputProductController {
     }
 
     @GetMapping
-    public Result get() {
-        return outputProductService.get();
+    public Result get(@RequestParam int page) {
+        return outputProductService.get(page);
     }
 
     @GetMapping("/{id}")
@@ -29,8 +29,8 @@ public class OutputProductController {
     }
 
     @GetMapping("/{outputId}")
-    public Result getByOutputId(@PathVariable Integer outputId) {
-        return outputProductService.getByOutputId(outputId);
+    public Result getByOutputId(@PathVariable Integer outputId, @RequestParam int page) {
+        return outputProductService.getByOutputId(outputId, page);
     }
 
     @PutMapping("/{Id}")

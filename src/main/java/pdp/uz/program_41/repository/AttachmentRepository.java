@@ -1,5 +1,7 @@
 package pdp.uz.program_41.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pdp.uz.program_41.entity.Attachment;
@@ -12,7 +14,7 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Integer>
     boolean existsFileByActiveAndBytes(boolean active, byte[] bytes);
 
     boolean existsAttachmentByActive(boolean active);
-    List<Attachment> getAttachmentByActive(boolean active);
+    Page<Attachment> getAttachmentByActive(boolean active, Pageable pageable);
     boolean existsAttachmentByIdAndActive(Integer id, boolean active);
 
 }

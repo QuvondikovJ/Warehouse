@@ -18,8 +18,8 @@ public class ClientController {
         return clientService.add(client);
     }
     @GetMapping
-    public Result get(){
-        return clientService.get();
+    public Result get(@RequestParam int page){
+        return clientService.get(page);
     }
     @GetMapping("/{id}")
 public Result getById(@PathVariable Integer id){

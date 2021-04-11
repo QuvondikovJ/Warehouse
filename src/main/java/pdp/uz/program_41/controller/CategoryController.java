@@ -17,8 +17,8 @@ CategoryService categoryService;
     return categoryService.add(categoryDto);
 }
 @GetMapping
-    public Result get(){
-    return categoryService.get();
+    public Result get(@RequestParam int page){
+    return categoryService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

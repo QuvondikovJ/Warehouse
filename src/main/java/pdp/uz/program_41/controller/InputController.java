@@ -18,8 +18,8 @@ public class InputController {
     return inputService.add(inputDto);
 }
 @GetMapping
-    public Result get(){
-    return inputService.get();
+    public Result get(@RequestParam int page){
+    return inputService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

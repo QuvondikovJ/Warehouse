@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Attachment;
 import pdp.uz.program_41.entity.Category;
@@ -50,10 +53,12 @@ boolean existsProductByCodeAndActive = productRepository.existsProductByCodeAndA
   return new Result("New product successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsProductByActive = productRepository.existsProductByActive(true);
 if(existsProductByActive){
-    return new Result(productRepository.getProductByActive(true));
+    Pageable pageable = PageRequest.of(page,10);
+    Page<Product> page1 =productRepository.getProductByActive(true, pageable);
+    return new Result(page1);
 }
 return new Result("Products not exist yet!", false);
     }

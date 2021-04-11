@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Client;
 import pdp.uz.program_41.entity.Currency;
@@ -49,10 +52,12 @@ outputRepository.save(output);
 return new Result("New output successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
 boolean existsOutput = outputRepository.existsOutput();
 if(existsOutput){
-    return new Result(outputRepository.findAll());
+    Pageable pageable = PageRequest.of(page,10);
+    Page<Output> page1 = outputRepository.findAll(pageable);
+    return new Result(page1);
 }
 return new Result("Outputs not exist yet!", false);
     }

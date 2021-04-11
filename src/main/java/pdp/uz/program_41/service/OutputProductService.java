@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Output;
 import pdp.uz.program_41.entity.OutputProduct;
@@ -39,20 +42,24 @@ outputProductRepository.save(outputProduct);
         return new Result("New output product successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsOutputProduct = outputProductRepository.existsOutputProduct();
         if(existsOutputProduct){
-            return new Result(outputProductRepository.findAll());
+            Pageable pageable = PageRequest.of(page, 10);
+            Page<OutputProduct>  page1 = outputProductRepository.findAll(pageable);
+            return new Result(page1);
         }
         return new Result("Output products not exist yet!", false);
     }
 
-    public Result getByOutputId(Integer outputId) {
+    public Result getByOutputId(Integer outputId, int page) {
         boolean existsOutputProductByOutputId = outputProductRepository.existsOutputProductByOutputId(outputId);
         if (!existsOutputProductByOutputId) {
             return new Result("This output does not any products!", false);
         }
-        return new Result(outputProductRepository.getOutputProductByOutputId(outputId));
+        Pageable pageable = PageRequest.of(page,10);
+        Page<OutputProduct> page1 = outputProductRepository.getOutputProductByOutputId(outputId, pageable);
+        return new Result(page1);
     }
 
 

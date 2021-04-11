@@ -17,8 +17,8 @@ CurrencyService currencyService;
     return currencyService.add(currency);
 }
 @GetMapping
-    public Result get(){
-    return currencyService.get();
+    public Result get(@RequestParam int page){
+    return currencyService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

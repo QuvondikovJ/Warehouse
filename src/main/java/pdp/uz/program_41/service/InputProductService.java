@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Input;
 import pdp.uz.program_41.entity.InputProduct;
@@ -40,10 +43,12 @@ inputProductRepository.save(inputProduct);
 return new Result("New input product successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsInputProduct = inputProductRepository.existsInputProduct();
         if(existsInputProduct){
-            return new Result(inputProductRepository.findAll());
+            Pageable pageable = PageRequest.of(page,10);
+            Page<InputProduct> page1 = inputProductRepository.findAll(pageable);
+            return new Result(page1);
         }
         return new Result("Input products not exists yet!",false);
     }
@@ -58,12 +63,14 @@ return new Result("New input product successfully saved.", true);
 
 
 
-    public Result getByInputId(Integer inputId){
+    public Result getByInputId(Integer inputId, int page){
         boolean existsInputProductByInputId = inputProductRepository.existsInputProductByInputId(inputId);
         if(!existsInputProductByInputId){
             return new Result("This input does not have any product!",false);
         }
-        return new Result(inputProductRepository.getInputProductByInputId(inputId));
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<InputProduct> page1 = inputProductRepository.getInputProductByInputId(inputId, pageable);
+        return new Result(page1);
     }
 
     public Result edit(Integer id, InputProductDto inputProductDto){

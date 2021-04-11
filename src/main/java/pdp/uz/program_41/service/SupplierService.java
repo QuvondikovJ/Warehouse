@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Supplier;
 import pdp.uz.program_41.payload.Result;
@@ -26,10 +29,12 @@ public class SupplierService {
   return new Result("New supplier successfully saved", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsSupplierByActive = supplierRepository.existsSupplierByActive(true);
         if(existsSupplierByActive){
-            return new Result(supplierRepository.getSupplierByActive(true));
+            Pageable pageable = PageRequest.of(page,  10);
+            Page<Supplier> page1 = supplierRepository.getSupplierByActive(true, pageable);
+            return new Result(page1);
         }
         return new Result("Suppliers not exist yet!", false);
     }

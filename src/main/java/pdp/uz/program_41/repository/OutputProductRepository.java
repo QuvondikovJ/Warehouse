@@ -1,5 +1,7 @@
 package pdp.uz.program_41.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pdp.uz.program_41.entity.Measurement;
@@ -14,6 +16,6 @@ boolean existsOutputProductByProductIdAndOutputId(Integer product_id, Integer ou
     boolean existsOutputProduct();
 
 boolean existsOutputProductByOutputId(Integer output_id);
-List<OutputProduct> getOutputProductByOutputId(Integer output_id);
+Page<OutputProduct> getOutputProductByOutputId(Integer output_id, Pageable pageable);
 
 }

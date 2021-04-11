@@ -17,8 +17,8 @@ public class MeasurementController {
     return measurementService.add(measurement);
 }
 @GetMapping
-    public Result get(){
-    return measurementService.get();
+    public Result get(@RequestParam int page){
+    return measurementService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

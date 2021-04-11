@@ -20,16 +20,12 @@ AttachmentService attachmentService;
     return attachmentService.add(request);
 }
 @GetMapping
-    public Result get(){
-    return attachmentService.get();
+    public Result get(@RequestParam int page){
+    return attachmentService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){
     return attachmentService.getById(id);
-}
-@GetMapping("/contentId")
-    public Result getContents(HttpServletResponse response) throws IOException {
-    return attachmentService.getContents(response);
 }
 @GetMapping("/contentId/{id}")
     public Result getContentById(@PathVariable Integer id, HttpServletResponse response) throws IOException {

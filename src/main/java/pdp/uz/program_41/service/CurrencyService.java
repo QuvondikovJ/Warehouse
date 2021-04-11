@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Currency;
 import pdp.uz.program_41.payload.Result;
@@ -26,12 +29,14 @@ public class CurrencyService {
         return new Result("New currency successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsCurrencyByActive = currencyRepository.existsCurrencyByActive(true);
         if(!existsCurrencyByActive){
             return new Result("Currencies not exist yet!", false);
         }
-        return new Result(currencyRepository.getCurrencyByActive(true));
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Currency> page1 = currencyRepository.getCurrencyByActive(true, pageable);
+        return new Result(page1);
     }
 
     public Result getById(Integer id){

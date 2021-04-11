@@ -1,5 +1,7 @@
 package pdp.uz.program_41.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pdp.uz.program_41.entity.InputProduct;
@@ -14,5 +16,5 @@ boolean existsInputProductByInputId(Integer input_id);
 @Query(value = "select count(*) > 0 from input_product", nativeQuery =true)
     boolean existsInputProduct();
 
-List<InputProduct> getInputProductByInputId(Integer input_id);
+Page<InputProduct> getInputProductByInputId(Integer input_id, Pageable pageable);
 }

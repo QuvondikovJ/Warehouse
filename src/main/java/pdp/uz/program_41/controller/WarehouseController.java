@@ -17,8 +17,8 @@ WarehouseService warehouseService;
     return warehouseService.add(warehouse);
 }
 @GetMapping
-    public Result get(){
-    return warehouseService.get();
+    public Result get(@RequestParam int page){
+    return warehouseService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

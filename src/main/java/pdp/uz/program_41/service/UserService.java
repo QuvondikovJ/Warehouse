@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.User;
 import pdp.uz.program_41.entity.Warehouse;
@@ -40,10 +43,12 @@ boolean existsUserByPhoneNumberAndActive = userRepository.existsUserByPhoneNumbe
     return new Result("New user successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsUserByActive = userRepository.existsUserByActive(true);
     if(existsUserByActive){
-        return new Result(userRepository.getUserByActive(true));
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<User> page1 = userRepository.getUserByActive(true, pageable);
+        return new Result(page1);
     }
     return new Result("Users not exist yet!", false);
 

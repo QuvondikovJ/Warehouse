@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Measurement;
 import pdp.uz.program_41.payload.Result;
@@ -25,12 +28,14 @@ public class MeasurementService {
         return new Result("New measurement successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsMeasurementByActive = measurementRepository.existsMeasurementByActive(true);
         if(!existsMeasurementByActive){
             return new Result("Measurements not exist yet!", false);
         }
-        return new Result(measurementRepository.getMeasurementByActive(true));
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Measurement> page1 = measurementRepository.getMeasurementByActive(true, pageable);
+        return new Result(page1);
     }
 
     public Result getById(Integer id){

@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Currency;
 import pdp.uz.program_41.entity.Input;
@@ -50,10 +53,12 @@ public class InputService {
     }
 
 
-    public Result get() {
+    public Result get(int page) {
         boolean existsInput = inputRepository.existsInput();
         if (existsInput) {
-            return new Result(inputRepository.findAll());
+            Pageable pageable = PageRequest.of(page,10);
+            Page<Input> page1 = inputRepository.findAll(pageable);
+            return new Result(page1);
         }
         return new Result("Inputs not exist yet!", false);
     }

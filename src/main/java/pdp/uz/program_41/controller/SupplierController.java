@@ -17,8 +17,8 @@ SupplierService supplierService;
     return supplierService.add(supplier);
 }
 @GetMapping
-    public Result get(){
-    return supplierService.get();
+    public Result get(@RequestParam int page){
+    return supplierService.get(page);
 }
 @GetMapping("/{id}")
 public Result getById(@PathVariable Integer id){

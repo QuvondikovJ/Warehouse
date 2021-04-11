@@ -17,8 +17,8 @@ ProductService productService;
     return productService.add(productDto);
 }
 @GetMapping
-    public Result get(){
-    return productService.get();
+    public Result get(@RequestParam int page){
+    return productService.get(page);
 }
 @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id){

@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdp.uz.program_41.entity.Warehouse;
 import pdp.uz.program_41.payload.Result;
@@ -25,12 +28,14 @@ public class WarehouseService {
        return new Result("New warehouse successfully saved.", true);
     }
 
-    public Result get(){
+    public Result get(int page){
         boolean existsWarehouseByActive = warehouseRepository.existsWarehouseByActive(true);
         if(!existsWarehouseByActive){
             return new Result("Warehouses not exist yet!", false);
         }
-        return new Result(warehouseRepository.getWarehousesByActive(true));
+        Pageable pageable = PageRequest.of(page,10);
+        Page<Warehouse> page1 = warehouseRepository.getWarehousesByActive(true, pageable);
+        return new Result(page1);
     }
 
     public Result getById(Integer id){

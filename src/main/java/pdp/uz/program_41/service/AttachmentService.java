@@ -1,6 +1,9 @@
 package pdp.uz.program_41.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,10 +56,12 @@ boolean existsFileByActiveAndBytes = attachmentRepository.existsFileByActiveAndB
             return new Result("This file does not have any photo!",false);
         }
 
-public Result get(){
+public Result get(int page){
         boolean existsAttachmentByActive = attachmentRepository.existsAttachmentByActive(true);
         if(existsAttachmentByActive){
-            return new Result(attachmentRepository.getAttachmentByActive(true));
+            Pageable pageable = PageRequest.of(page, 10);
+            Page<Attachment> page1=attachmentRepository.getAttachmentByActive(true, pageable);
+            return new Result(page1);
         }
         return new Result("Attachments not exist yet!", false);
 }
@@ -70,21 +75,7 @@ public Result getById(Integer id){
         return new Result(optionalAttachment.get());
 }
 
-public Result getContents(HttpServletResponse response) throws IOException {
-        boolean existsAttachmentByActive = attachmentRepository.existsAttachmentByActive(true);
-        if(!existsAttachmentByActive){
-            return new Result("Attachments not exist yet!", false);
-        }
-    List<Attachment> attachmentList = attachmentRepository.getAttachmentByActive(true);
-        for(Attachment attachment : attachmentList){
-            AttachmentContent attachmentContent = attachmentContentRepository.getAttachmentContentByAttachmentId(attachment.getId());
 
-            response.setHeader("Content-Disposition", "attachment; filename=\""+attachment.getName()+"\"");
-            response.setContentType(attachment.getContentType());
-            FileCopyUtils.copy(attachmentContent.getBytes(), response.getOutputStream());
-        }
-        return new Result("Files successfully send.",true);
-}
 
 public Result getContentById(Integer id, HttpServletResponse response) throws IOException {
         boolean existsAttachmentByIdAndActive = attachmentRepository.existsAttachmentByIdAndActive(id, true);
